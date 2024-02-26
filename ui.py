@@ -8,9 +8,13 @@ import admin as admin
 import user as use
 from Profile import Profile, Post
 
-
+server_adress = "168.235.86.101"
+server_port =  "3021" 
 administrator = False
 temp_path = ''
+
+
+
 def user():
     user_type = input("Please input user type (\"admin\", \"user\"):  ")
     temp = 0
@@ -198,33 +202,62 @@ def check_file(a):
 
 
 def del_file(a):
-    paths = a.split(' ')
-    path = paths[1]
-    if path[-3:] == 'dsu':
-        if check_file(path):
-            Path(path).unlink()
-            print(f"{path} DELETED")
-        elif not check_file(path):
-            print("no such file exists")
+    if administrator:
+        paths = a.split(' ')
+        path = paths[1]
+        if path[-3:] == 'dsu':
+            if check_file(path):
+                Path(path).unlink()
+                print(f"{path} DELETED")
+            elif not check_file(path):
+                print("no such file exists")
+        else:
+            print("can only delete dsu files")
     else:
-        print("can only delete dsu files")
+        path = use.get_path()
+        if path[-3:] == 'dsu':
+            if check_file(path):
+                Path(path).unlink()
+                print(f"{path} DELETED")
+            elif not check_file(path):
+                print("no such file exists")
+        else:
+            print("can only delete dsu files")
+
     comm()
 
 
 def read_file(a):
-    paths = a.split(' ')
-    path = paths[1]
-    if path[-3:] == 'dsu':
-        if check_file(path):
-            with open(path, 'r') as p:
-                l = p.readlines()
-                if len(l) > 0:
-                    for i in l:
-                        print(i, end='')
-                else:
-                    print("EMPTY")
-        elif not check_file(path):
-            print("no such file exists")
+    if administrator:
+        paths = a.split(' ')
+        path = paths[1]
+        if path[-3:] == 'dsu':
+            if check_file(path):
+                with open(path, 'r') as p:
+                    l = p.readlines()
+                    if len(l) > 0:
+                        for i in l:
+                            print(i, end='')
+                    else:
+                        print("EMPTY")
+            elif not check_file(path):
+                print("no such file exists")
+        print("")
+    else:
+        path = use.get_path()
+        if path[-3:] == 'dsu':
+            if check_file(path):
+                with open(path, 'r') as p:
+                    l = p.readlines()
+                    if len(l) > 0:
+                        for i in l:
+                            print(i, end='')
+                    else:
+                        print("EMPTY")
+            elif not check_file(path):
+                print("no such file exists") 
+        else:
+            print("please enter a file with \".dsu\" extention")
     print("")
     comm()
 
