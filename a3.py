@@ -9,7 +9,7 @@ import user as user
 from ds_client import send
 
 if __name__ == "__main__":
-    send("168.235.86.101", 3021, "jeffrey", "passwordgeneric", "TGI FRIDAYS PEOPLE")
+    send("168.235.86.101", 3021, "soooounique", "2345", "please work")
     '''
     if ui.user() == 1:
         admin.start()
