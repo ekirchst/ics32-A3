@@ -7,6 +7,8 @@ from pathlib import Path
 import admin as admin
 import user as use
 from Profile import Profile, Post
+from ds_client import send
+
 
 server_adress = "168.235.86.101"
 server_port =  "3021" 
@@ -317,6 +319,43 @@ def edit_file(a):
             new_post = Post(post_content)
             profile.add_post(new_post)
             profile.save_profile(temp_path)
+    else:
+        profile = Profile()
+        print("please enter a dsu file path")
+        temp_path = input()
+        profile.load_profile(path = temp_path)
+        print("what would you like to edit?")
+        print("\"-usr\" to update the username")
+        print("\"-pwd\" to update password")
+        print("\"-bio\" to update bio")
+        print("\"-addpost\" to add a post")
+        user_in = str(input())
+        if "-usr" in user_in:
+            new = str(input("enter new username: "))
+            profile.username = new
+            profile.save_profile(temp_path)
+        elif "-pwd" in user_in:
+            new = str(input("enter new password: "))
+            profile.password = new
+            profile.save_profile(temp_path)
+        elif "-bio" in user_in:
+            new = str(input("enter new bio: "))
+            profile.bio = new
+            profile.save_profile(temp_path)
+        elif "-addpost" in user_in:
+            post_content = input("Enter new post: ")
+            new_post = Post(post_content)
+            profile.add_post(new_post)
+            profile.save_profile(temp_path)
+            temp = input("would you like to post this on a server?  Y/N:    ")
+            if temp == "Y":
+                serv = input("please input a server:   ")
+                port = 3021
+                username = profile.username
+                password = profile.password
+                message = post_content
+                send(serv, port, username, password, message)
+
     comm()
 
 
