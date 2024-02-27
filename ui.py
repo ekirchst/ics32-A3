@@ -188,9 +188,9 @@ def create_file(a):
             f.write(c)
         profile.save_profile(path = line)
         f = open(line, 'a')
-    temp_path = filepath
-    print(f'{filepath} OPENED')
-    print(f"this is the way  {temp_path}")
+        temp_path = file_path
+    print(f'{file_path} OPENED')
+    print(f"this is the way  {file_path}")
     return temp_path
 
 
@@ -274,46 +274,49 @@ def open_file(a):
         path = use.get_path()
         print("Without the file extention,")
         name = use.file_name()
-        temp_path = path + name
-        f = open(temp_path, 'a')
+        temp_path = path + "\\" + name
+        f = open(temp_path, 'r+')
         print(temp_path + ' Has been opened')
-        print(f.read())
+        for line in f:
+            print("hehehehe")
+            print(line.strip())
     comm()
     return temp_path
         
 
 def edit_file(a):
-    lis = a.split(' ')
-    bio_index = a.find('-bio')
-    bio = ''
-    if bio_index != -1:
-        start_quote = a.find('"', bio_index)
-        end_quote = a.find('"', start_quote + 1)
-        if start_quote != -1 and end_quote != -1:
-            bio = a[start_quote + 1:end_quote]
-    
-    profile = Profile()
-    profile.load_profile(path = temp_path)
-    
-    if '-usr' in lis:
-        usr_index = lis.index('-usr')
-        new_usr = ' '.join(lis[usr_index + 1:]).strip('"')
-        profile.username = new_usr
-        profile.save_profile(temp_path)
-    if '-pwd' in lis:
-        pwd_index = lis.index('-pwd')
-        new_pwd= lis[pwd_index + 1]
-        profile.password = new_pwd.strip('"')
-        profile.save_profile(temp_path)
-    if '-bio' in lis:
-        profile.bio = bio.strip('"')
-        profile.save_profile(temp_path)
-    if '-addpost' in lis:
-        post_index = lis.index('-addpost')
-        post_content = ' '.join(lis[post_index + 1:])
-        new_post = Post(post_content)
-        profile.add_post(new_post)
-        profile.save_profile(temp_path)
+    if administrator:
+        lis = a.split(' ')
+        bio_index = a.find('-bio')
+        bio = ''
+        if bio_index != -1:
+            start_quote = a.find('"', bio_index)
+            end_quote = a.find('"', start_quote + 1)
+            if start_quote != -1 and end_quote != -1:
+                bio = a[start_quote + 1:end_quote]
+        
+        profile = Profile()
+        profile.load_profile(path = temp_path)
+        
+        if '-usr' in lis:
+            usr_index = lis.index('-usr')
+            new_usr = ' '.join(lis[usr_index + 1:]).strip('"')
+            profile.username = new_usr
+            profile.save_profile(temp_path)
+        if '-pwd' in lis:
+            pwd_index = lis.index('-pwd')
+            new_pwd= lis[pwd_index + 1]
+            profile.password = new_pwd.strip('"')
+            profile.save_profile(temp_path)
+        if '-bio' in lis:
+            profile.bio = bio.strip('"')
+            profile.save_profile(temp_path)
+        if '-addpost' in lis:
+            post_index = lis.index('-addpost')
+            post_content = ' '.join(lis[post_index + 1:])
+            new_post = Post(post_content)
+            profile.add_post(new_post)
+            profile.save_profile(temp_path)
     comm()
 
 

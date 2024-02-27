@@ -4,10 +4,11 @@
 import socket
 import json
 import ds_protocol
-
+import time
 server_adress = "168.235.86.101"
 server_port =  3021
 
+timestamp = str(time.time())
 
 def send(server:str, port:int, username:str, password:str, message:str, bio:str=None):
   '''
@@ -30,9 +31,10 @@ def send(server:str, port:int, username:str, password:str, message:str, bio:str=
                     "password": password,
                     "token": ""
                 }
+      print("joined")
       data_str = json.dumps(stuff)
       server_conn.sendall(data_str.encode())
-      response = server_conn.recv(4096).decode()
+      response = server_conn.recv(3021).decode()
       response_json = json.loads(response)
       print(response_json)
       if "token" in str(response_json):
@@ -51,10 +53,12 @@ def send(server:str, port:int, username:str, password:str, message:str, bio:str=
           formatted_message = ds_protocol.format_for_json(action, username, password,user_token=token, message=message, bio=bio)
           print(formatted_message)
       formatted_message = ds_protocol.format_for_json(action, username, password,user_token=token, message=message, bio=bio)
+      print(formatted_message)
       data_str = json.dumps(formatted_message)
+      print(f"{data_str}")
       server_conn.sendall(data_str.encode())
 
-      response = server_conn.recv(4096).decode()
+      response = server_conn.recv(3021).decode()
       response_json = json.loads(response)
       print(response_json)
       if "response" in response_json:

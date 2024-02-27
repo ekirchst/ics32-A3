@@ -79,6 +79,7 @@ def search():
 
 
 def file_name():
+    print("got here")
     name = input("Please enter a file name:  ")
     name = name + ".dsu"
     return name
